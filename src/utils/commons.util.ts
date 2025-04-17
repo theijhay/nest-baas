@@ -38,4 +38,7 @@ export default class CommonUtil {
       );
     });
   };
-}
+
+static generateTableName(user_id: string, name: string) {
+  return `user_${user_id}_${name.trim().toLowerCase().replace(/\s+/g, '_')}`;
+}}
