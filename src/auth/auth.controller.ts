@@ -73,7 +73,10 @@ export class AuthController {
        if (error instanceof UnauthorizedException) {
          throw new UnauthorizedException('Invalid credentials');
        } else {
-         throw new BadRequestException('Login failed due to bad request');
+        throw new BadRequestException({
+          status_code: 400,
+          message: `User with email ${loginDto.email} does not exist`,
+        });
        }
      }
    }
