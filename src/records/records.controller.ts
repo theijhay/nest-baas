@@ -13,7 +13,10 @@ import {
   import { JwtAuthGuard } from '../auth/auth.guard';
   import { User } from '../utils/decorators/user.decorator';
   import { User as UserEntity } from '../users/users.entity';
-  import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+  import { 
+    ApiTags, 
+    ApiBearerAuth, 
+    ApiResponse, ApiOperation  } from '@nestjs/swagger';
   import { UpdateRecordDto } from './dto/update-record.dto';
   
   @ApiTags('records')
@@ -24,6 +27,12 @@ import {
     constructor(private readonly recordsService: RecordsService) {}
   
     @Post(':collection')
+    @ApiOperation({
+      summary: 'Create a new data collection',
+      description: `create a new record in a specified collection`,
+    })
+    @ApiOperation({ summary: 'Create a new record in a collection' })
+    @ApiResponse({ status: 201, description: 'Collection created successfully' })
     async create(
       @Param('collection') collection: string,
       @Body() dto: CreateRecordDto,
@@ -38,6 +47,8 @@ import {
     }
     
     @Get(':collection')
+    @ApiOperation({ summary: 'Get all records in a collection' })
+    @ApiResponse({ status: 200, description: 'Records fetched successfully' })
     async findAll(
       @Param('collection') collection: string,
       @User() user: UserEntity,
@@ -51,6 +62,8 @@ import {
     }
     
     @Patch(':collection/:id')
+    @ApiOperation({ summary: 'Update a record in a collection' })
+    @ApiResponse({ status: 200, description: 'Record updated successfully' })
     async update(
       @Param('collection') collection: string,
       @Param('id') id: string,
@@ -66,6 +79,8 @@ import {
     }
     
     @Delete(':collection/:id')
+    @ApiOperation({ summary: 'Delete a record in a collection' })
+    @ApiResponse({ status: 200, description: 'Record deleted successfully' })
     async delete(
       @Param('collection') collection: string,
       @Param('id') id: string,

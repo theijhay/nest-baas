@@ -21,6 +21,6 @@ export default registerAs('typeorm', (): DataSourceOptions => ({
   username: parsed.user,
   password: parsed.password,
   database: parsed.database,
-  synchronize: true,
+  synchronize: false,
   entities: [User, Collection, Field, Webhook],
 }));
