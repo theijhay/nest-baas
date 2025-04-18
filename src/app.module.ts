@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { CollectionsModule } from './collections/collections.module';
 import { FieldsModule } from './fields/fields.module';
 import { RecordsModule } from './records/records.module';
+import { WebhookModule } from './webhooks/webhook.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RecordsModule } from './records/records.module';
     CollectionsModule,
     FieldsModule,
     RecordsModule,
+    WebhookModule,
   ],
 })
 export class AppModule {}
