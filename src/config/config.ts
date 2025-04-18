@@ -5,6 +5,7 @@ import { parse } from 'pg-connection-string';
 import { User } from '../users/users.entity';
 import { Collection } from '../collections/collection.entity';
 import { Field } from '../fields/field.entity';
+import { Webhook } from '../webhooks/webhook.entity';
 
 
 dotenv.config();
@@ -21,5 +22,5 @@ export default registerAs('typeorm', (): DataSourceOptions => ({
   password: parsed.password,
   database: parsed.database,
   synchronize: true,
-  entities: [User, Collection, Field],
+  entities: [User, Collection, Field, Webhook],
 }));

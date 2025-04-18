@@ -5,6 +5,7 @@ import { parse } from 'pg-connection-string';
 import { User } from './users/users.entity';
 import { Collection } from './collections/collection.entity';
 import { Field } from './fields/field.entity';
+import { Webhook } from './webhooks/webhook.entity';
 
 dotenv.config();
 const parsed = parse(process.env.DATABASE_URL!);
@@ -18,7 +19,7 @@ export default new DataSource({
   database: parsed.database,
 
   synchronize: false,
-  entities: [User, Collection, Field],
+  entities: [User, Collection, Field, Webhook],
   migrations: ['src/migrations/**/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 });
