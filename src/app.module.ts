@@ -1,4 +1,7 @@
-import { Module } from '@nestjs/common';
+import { 
+  Module, 
+  MiddlewareConsumer, 
+  RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeOrmConfig from './config/config';
@@ -8,6 +11,7 @@ import { CollectionsModule } from './collections/collections.module';
 import { FieldsModule } from './fields/fields.module';
 import { RecordsModule } from './records/records.module';
 import { WebhookModule } from './webhooks/webhook.module';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 
 @Module({
   imports: [
@@ -26,4 +30,10 @@ import { WebhookModule } from './webhooks/webhook.module';
     WebhookModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
