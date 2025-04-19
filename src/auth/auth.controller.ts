@@ -5,7 +5,9 @@ import {
   HttpCode, 
   HttpStatus, 
   UnauthorizedException, 
-  BadRequestException } from '@nestjs/common';
+  BadRequestException, 
+  ValidationPipe,
+  UsePipes} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -18,6 +20,7 @@ export class AuthController {
 
   // Register a new user
   @Post('register')
+  @UsePipes(new ValidationPipe())
   @HttpCode(HttpStatus.CREATED
   )
   @ApiBearerAuth('JWT-auth')
@@ -50,6 +53,7 @@ export class AuthController {
 
    // User Login Endpoint
    @Post('login')
+   @UsePipes(new ValidationPipe())
    @HttpCode(HttpStatus.OK)
    @ApiResponse({
      status: 200,
