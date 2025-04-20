@@ -1,4 +1,10 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { 
+  Controller, 
+  Post, 
+  Body, 
+  UseGuards, 
+  UsePipes, 
+  ValidationPipe } from '@nestjs/common';
 import { CollectionsService } from './collections.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
 import { User } from '../utils/decorators/user.decorator';
@@ -15,6 +21,7 @@ export class CollectionsController {
   
 @UseGuards(JwtAuthGuard)
     @Post("create")
+    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Create a new data collection',
       description: `Define a new table with custom fields for your app. E.g. "Books", "Invoices", etc.`,
