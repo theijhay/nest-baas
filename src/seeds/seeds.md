@@ -1,0 +1,1 @@
+I initially used raw SQL in migration because it's a common lightweight approach to populate dev data quickly. However, I later refactored it into a proper seeding script using NestJS's Repository pattern. This allows us to use entity-level hooks like password hashing, gives better type safety, and aligns with NestJS + TypeORM best practices.
