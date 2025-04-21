@@ -21,7 +21,6 @@ export class CollectionsController {
   
 @UseGuards(JwtAuthGuard)
     @Post("create")
-    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Create a new data collection',
       description: `Define a new table with custom fields for your app. E.g. "Books", "Invoices", etc.`,

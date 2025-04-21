@@ -20,7 +20,6 @@ export class AuthController {
 
   // Register a new user
   @Post('register')
-  @UsePipes(new ValidationPipe())
   @HttpCode(HttpStatus.CREATED
   )
   @ApiBearerAuth('JWT-auth')
@@ -53,7 +52,6 @@ export class AuthController {
 
    // User Login Endpoint
    @Post('login')
-   @UsePipes(new ValidationPipe())
    @HttpCode(HttpStatus.OK)
    @ApiResponse({
      status: 200,
