@@ -7,6 +7,8 @@ import {
     Get,
     Patch,
     Delete,
+    UsePipes,
+    ValidationPipe,
   } from '@nestjs/common';
   import { RecordsService } from './records.service';
   import { CreateRecordDto } from './dto/create-record.dto';
@@ -27,6 +29,7 @@ import {
     constructor(private readonly recordsService: RecordsService) {}
   
     @Post(':collection')
+    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Create a new data collection',
       description: `create a new record in a specified collection`,
@@ -62,6 +65,7 @@ import {
     }
     
     @Patch(':collection/:id')
+    @UsePipes(new ValidationPipe())
     @ApiOperation({ summary: 'Update a record in a collection' })
     @ApiResponse({ status: 200, description: 'Record updated successfully' })
     async update(

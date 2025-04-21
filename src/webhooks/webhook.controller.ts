@@ -5,7 +5,9 @@ import {
     Delete,
     Param,
     Body,
-    UseGuards,
+    UseGuards, 
+    UsePipes, 
+    ValidationPipe
   } from '@nestjs/common';
   import { WebhookService } from './webhook.service';
   import { CreateWebhookDto } from './dto/create-webhook.dto';
@@ -27,6 +29,7 @@ import {
     constructor(private readonly webhookService: WebhookService) {}
   
     @Post("create")
+    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Register a webhook for create/update/delete events',
       description: `
