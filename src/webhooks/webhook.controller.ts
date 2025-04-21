@@ -29,7 +29,6 @@ import {
     constructor(private readonly webhookService: WebhookService) {}
   
     @Post("create")
-    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Register a webhook for create/update/delete events',
       description: `

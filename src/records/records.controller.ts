@@ -29,7 +29,6 @@ import {
     constructor(private readonly recordsService: RecordsService) {}
   
     @Post(':collection')
-    @UsePipes(new ValidationPipe())
     @ApiOperation({
       summary: 'Create a new data collection',
       description: `create a new record in a specified collection`,
@@ -65,7 +64,6 @@ import {
     }
     
     @Patch(':collection/:id')
-    @UsePipes(new ValidationPipe())
     @ApiOperation({ summary: 'Update a record in a collection' })
     @ApiResponse({ status: 200, description: 'Record updated successfully' })
     async update(
