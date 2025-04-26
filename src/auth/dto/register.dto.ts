@@ -13,4 +13,8 @@ export class RegisterDto {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+
+@ApiProperty({ example: 'user', description: 'The scope of the user' })
+@IsNotEmpty()
+scope: string;
 }

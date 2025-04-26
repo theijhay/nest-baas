@@ -10,16 +10,16 @@ import { CreateCollectionDto } from './dto/create-collection.dto';
 import { User } from '../utils/decorators/user.decorator';
 import { User as UserEntity } from '../users/users.entity';
 import { ApiTags, ApiBearerAuth, ApiResponse, ApiOperation } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 
 @ApiTags('collections')
 @ApiBearerAuth()
-@Controller('collections')
+@Controller('api/user/collections/')
 export class CollectionsController {
     constructor(private readonly collectionsService: CollectionsService) {}
   
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard)
     @Post("create")
     @ApiOperation({
       summary: 'Create a new data collection',

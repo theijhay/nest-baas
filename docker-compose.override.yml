@@ -2,13 +2,18 @@ version: '3.8'
 
 services:
   app:
+    container_name: nest-app
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - '5000:5000'
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: yarn start:dev
     depends_on:
       - postgres
       - kafka
@@ -17,6 +22,7 @@ services:
   postgres:
     image: postgres:15
     restart: always
+    container_name: postgres
     ports:
       - '5432:5432'
     environment:
@@ -29,6 +35,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     restart: always
+    container_name: kafka
     ports:
       - '9092:9092'
     environment:
@@ -42,6 +49,7 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     restart: always
+    container_name: zookeeper
     ports:
       - '2181:2181'
     environment:

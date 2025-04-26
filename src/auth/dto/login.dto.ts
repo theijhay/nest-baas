@@ -19,4 +19,9 @@ export class LoginDto {
   @IsString()
   @MinLength(6)
   password: string;
+
+  @ApiProperty({ example: 'user', description: 'The scope of the user' })
+  @IsNotEmpty()
+  @IsString()
+  scope: string;
 }
