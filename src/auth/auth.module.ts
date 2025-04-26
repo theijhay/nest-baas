@@ -24,6 +24,7 @@ import { MailService } from 'apps/email/mail.service';
     }),
     ConfigModule,
     TypeOrmModule.forFeature([User]),
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
   providers: [

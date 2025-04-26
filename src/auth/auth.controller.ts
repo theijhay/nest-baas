@@ -1,37 +1,41 @@
-import { 
-  Controller, 
-  Post, 
-  Body, 
-  HttpCode, 
-  HttpStatus, 
-  UnauthorizedException, 
-  BadRequestException, 
-  ValidationPipe,
-  UsePipes} from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UnauthorizedException,
+  BadRequestException,
+  Res,
+  Req,
+  UseGuards,
+  Get,
+  Param,
+} from '@nestjs/common';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { User } from '../users/users.entity';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { AuthGuard } from '../guards/auth.guard';
+import { User as CurrentUser } from '../utils/decorators/user.decorator';
+import { ApiTags, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 
-@Controller('auth')
+@ApiTags('Authentication')
+@Controller('api/user/auth/')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // Register a new user
   @Post('register')
-  @HttpCode(HttpStatus.CREATED
-  )
-  @ApiBearerAuth('JWT-auth')
-  @ApiResponse({
-    status: 201,
-    description: 'User registered successfully',
-    type: User,
-  })
+  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({ status: 201, description: 'User registered successfully', type: User })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  async register(@Body() registerUserDto: RegisterDto) {
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     try {
-      const user: User = await this.authService.register(registerUserDto);
+      const user = await this.authService.register({ ...registerDto });
 
       return {
         status_code: 201,
@@ -39,6 +43,7 @@ export class AuthController {
         user: {
           id: user.id,
           email: user.email,
+          scope: user.scope,
           is_active: user.is_active,
           is_verified: user.is_verified,
           created_at: user.created_at,
@@ -50,36 +55,72 @@ export class AuthController {
     }
   }
 
-   // User Login Endpoint
-   @Post('login')
-   @HttpCode(HttpStatus.OK)
-   @ApiResponse({
-     status: 200,
-     description: 'Login successful',
-   })
-   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-   @ApiResponse({ status: 400, description: 'Bad Request' })
-   async login(
-    @Body() loginDto: LoginDto) {
-     try {
-       // Authenticate the user and get tokens
-       const loginResponse = await this.authService.login(loginDto);
- 
-       return {
-         status_code: HttpStatus.OK,
-         message: 'Login successful',
-         data: loginResponse,
-       };
-     } catch (error) {
-       console.error('UserController :: login error', error);
-       if (error instanceof UnauthorizedException) {
-         throw new UnauthorizedException('Invalid credentials');
-       } else {
-        throw new BadRequestException({
-          status_code: 400,
-          message: `User with email ${loginDto.email} does not exist`,
-        });
-       }
-     }
-   }
- }
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: 200, description: 'Login successful' })
+  @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    try {
+      const user = await this.authService.validateUser(loginDto);
+      
+      const token = await this.authService.generateToken(user);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+      });
+
+      return {
+        status_code: HttpStatus.OK,
+        message: 'Login successful',
+        data: {
+          id: user.id,
+          email: user.email,
+          scope: user.scope,
+          is_active: user.is_active,
+          is_verified: user.is_verified,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+          last_login_at: new Date(),
+          token
+        },
+      };
+    } catch (error) {
+      console.error('AuthController :: login error', error);
+      throw new UnauthorizedException('Invalid credentials');
+    }
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('jwt', {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+    });
+
+    res.setHeader('Authorization', ''); // Clear Authorization header
+
+    return {
+      status_code: HttpStatus.OK,
+      message: 'Logout successful. Authorization header cleared. Please clear localStorage on frontend if necessary.',
+    };
+  }
+  
+
+  @Get('me')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, description: 'Get current user', type: User })
+  getMe(@CurrentUser() user: User) {
+    return {
+      status_code: 200,
+      message: 'Authenticated user',
+      data: user,
+    };
+  }
+}

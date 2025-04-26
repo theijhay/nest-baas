@@ -4,11 +4,14 @@ import { RecordsController } from './records.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Collection } from '../collections/collection.entity';
 import { WebhookModule } from 'src/webhooks/webhook.module';
+import { SharedModule } from 'src/shared/auth.guard.module';
+import { User } from '../users/users.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Collection]),
+    TypeOrmModule.forFeature([User, Collection]),
     WebhookModule,
+    SharedModule,
   ],
   controllers: [RecordsController],
   providers: [RecordsService],

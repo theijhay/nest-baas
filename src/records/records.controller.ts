@@ -12,7 +12,7 @@ import {
   } from '@nestjs/common';
   import { RecordsService } from './records.service';
   import { CreateRecordDto } from './dto/create-record.dto';
-  import { JwtAuthGuard } from '../auth/auth.guard';
+  import { AuthGuard } from '../guards/auth.guard';
   import { User } from '../utils/decorators/user.decorator';
   import { User as UserEntity } from '../users/users.entity';
   import { 
@@ -23,8 +23,8 @@ import {
   
   @ApiTags('records')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Controller('records')
+  @UseGuards(AuthGuard)
+  @Controller('api/user/records/')
   export class RecordsController {
     constructor(private readonly recordsService: RecordsService) {}
   

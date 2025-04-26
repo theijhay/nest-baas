@@ -15,6 +15,9 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Column({ default: 'user' })  // Later support 'admin etc...'
+  scope: string;
+  
   @Column()
   password: string;  // Hashed password
 
