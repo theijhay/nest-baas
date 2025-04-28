@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Collection } from '../collections/collection.entity';
+import { Collection } from './collection.entity';
 
 @Entity('fields')
 export class Field {

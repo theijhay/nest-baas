@@ -11,9 +11,9 @@ import {
   } from '@nestjs/common';
   import { WebhookService } from './webhook.service';
   import { CreateWebhookDto } from './dto/create-webhook.dto';
-  import { AuthGuard } from '../guards/auth.guard';
-  import { User } from '../utils/decorators/user.decorator';
-  import { User as UserEntity } from '../users/users.entity';
+  import { AuthGuard } from 'src/guards/auth.guard';
+  import { User } from 'src/utils/decorators/user.decorator';
+  import { User as UserEntity } from '../../entities/users.entity';
   import { 
     ApiTags, 
     ApiBearerAuth, 

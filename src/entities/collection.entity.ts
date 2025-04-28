@@ -4,7 +4,7 @@ import {
     Column, ManyToOne, 
     CreateDateColumn, 
     UpdateDateColumn } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User } from './users.entity';
 
 @Entity('collections')
 export class Collection {

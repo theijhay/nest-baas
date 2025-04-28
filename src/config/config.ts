@@ -2,10 +2,10 @@ import { registerAs } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { DataSourceOptions } from 'typeorm';
 import { parse } from 'pg-connection-string';
-import { User } from '../users/users.entity';
-import { Collection } from '../collections/collection.entity';
-import { Field } from '../fields/field.entity';
-import { Webhook } from '../webhooks/webhook.entity';
+import { User } from '../entities/users.entity';
+import { Collection } from '../entities/collection.entity';
+import { Field } from '../entities/field.entity';
+import { Webhook } from 'src/entities/webhook.entity';
 
 
 dotenv.config();

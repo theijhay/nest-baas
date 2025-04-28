@@ -7,10 +7,10 @@ import {
   ValidationPipe } from '@nestjs/common';
 import { CollectionsService } from './collections.service';
 import { CreateCollectionDto } from './dto/create-collection.dto';
-import { User } from '../utils/decorators/user.decorator';
-import { User as UserEntity } from '../users/users.entity';
+import { User } from 'src/utils/decorators/user.decorator';
+import { User as UserEntity } from '../../entities/users.entity';
 import { ApiTags, ApiBearerAuth, ApiResponse, ApiOperation } from '@nestjs/swagger';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 
 @ApiTags('collections')

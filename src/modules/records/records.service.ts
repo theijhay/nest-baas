@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
-import { Collection } from '../collections/collection.entity';
-import { User } from '../users/users.entity';
+import { Collection } from '../../entities/collection.entity';
+import { User } from '../../entities/users.entity';
 import { CreateRecordDto } from './dto/create-record.dto';
-import { WebhookService } from 'src/webhooks/webhook.service';
+import { WebhookService } from 'src/modules/webhooks/webhook.service';
 
 @Injectable()
 export class RecordsService {

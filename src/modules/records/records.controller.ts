@@ -7,14 +7,12 @@ import {
     Get,
     Patch,
     Delete,
-    UsePipes,
-    ValidationPipe,
   } from '@nestjs/common';
   import { RecordsService } from './records.service';
   import { CreateRecordDto } from './dto/create-record.dto';
-  import { AuthGuard } from '../guards/auth.guard';
-  import { User } from '../utils/decorators/user.decorator';
-  import { User as UserEntity } from '../users/users.entity';
+  import { AuthGuard } from '../../guards/auth.guard';
+  import { User } from '../../utils/decorators/user.decorator';
+  import { User as UserEntity } from '../../entities/users.entity';
   import { 
     ApiTags, 
     ApiBearerAuth, 

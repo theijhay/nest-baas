@@ -16,10 +16,11 @@ import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { User } from '../users/users.entity';
-import { AuthGuard } from '../guards/auth.guard';
-import { User as CurrentUser } from '../utils/decorators/user.decorator';
+import { User } from '../../entities/users.entity';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { User as CurrentUser } from 'src/utils/decorators/user.decorator';
 import { ApiTags, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { successResponse, errorResponse, transformUser } from 'src/utils/response/response-object';
 
 @ApiTags('Authentication')
 @Controller('api/user/auth/')
@@ -37,23 +38,12 @@ export class AuthController {
     try {
       const user = await this.authService.register({ ...registerDto });
 
-      return {
-        status_code: 201,
-        message: 'User registered successfully',
-        user: {
-          id: user.id,
-          email: user.email,
-          scope: user.scope,
-          is_active: user.is_active,
-          is_verified: user.is_verified,
-          created_at: user.created_at,
-          updated_at: user.updated_at,
-        },
-      };
+    return successResponse('User registered successfully', transformUser(user));
     } catch (error) {
-      throw new BadRequestException(error.message);
+      return errorResponse('Registration failed', error.message);
     }
   }
+  
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -73,21 +63,11 @@ export class AuthController {
         secure: false,
       });
 
-      return {
-        status_code: HttpStatus.OK,
-        message: 'Login successful',
-        data: {
-          id: user.id,
-          email: user.email,
-          scope: user.scope,
-          is_active: user.is_active,
-          is_verified: user.is_verified,
-          created_at: user.created_at,
-          updated_at: user.updated_at,
-          last_login_at: new Date(),
-          token
-        },
-      };
+
+      return successResponse('Login successful', {
+        ...transformUser(user),
+        token,
+      });
     } catch (error) {
       console.error('AuthController :: login error', error);
       throw new UnauthorizedException('Invalid credentials');

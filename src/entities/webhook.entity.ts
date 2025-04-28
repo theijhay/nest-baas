@@ -6,7 +6,7 @@ import {
     UpdateDateColumn,
     ManyToOne,
   } from 'typeorm';
-  import { User } from '../users/users.entity';
+  import { User } from './users.entity';
   
   @Entity('webhooks')
   export class Webhook {
