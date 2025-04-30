@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user
-          image: your-dockerhub/user-service:latest
+          image: jhaytech/user-service:latest
           ports:
             - containerPort: 3000
           envFrom:

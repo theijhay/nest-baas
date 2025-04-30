@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: your-dockerhub/auth-service:latest
+          image: jhaytech/auth-service:latest
           ports:
             - containerPort: 3000
           envFrom:
