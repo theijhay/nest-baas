@@ -24,7 +24,10 @@
     "db:migrate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/database/ormconfig.ts",
     "db:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d src/database/ormconfig.ts",
     "db:seed": "ts-node -r tsconfig-paths/register src/migrations/seeds/seed.ts",
-    "start:email": "ts-node -r tsconfig-paths/register apps/email/main.ts"
+    "start:email": "ts-node -r tsconfig-paths/register apps/email/main.ts",
+    "dev:docker": "docker-compose up --build",
+    "down:docker": "docker-compose down -v",
+    "logs:docker": "docker-compose logs -f --tail=100"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.3.1",

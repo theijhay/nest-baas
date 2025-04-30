@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DATABASE_URL: postgres://postgres:password@postgres:5432/nest_baas
+  JWT_EXPIRES_IN: '3600'
+  EMAIL_FROM: noreply@nestbaas.com
