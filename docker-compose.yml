@@ -7,18 +7,45 @@ services:
       dockerfile: Dockerfile
     ports:
       - '5000:5000'
+    env_file:
+    - .env
+
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/nestbaas_db
+      - KAFKA_BROKER=kafka:9092
     depends_on:
       - postgres
       - kafka
       - zookeeper
 
+  # Email Microservice
+  email:
+    build:
+      context: .
+      dockerfile: apps/email/Dockerfile
+    ports:
+      - '3001:3001'
+    env_file:
+    - .env
+
+    environment:
+      - NODE_ENV=development
+      - KAFKA_BROKER=kafka:9092
+      - SMTP_USER=your_smtp_user
+      - SMTP_PASS=your_smtp_password
+    depends_on:
+      - kafka
+
+  # PostgreSQL
   postgres:
     image: postgres:15
     restart: always
     ports:
       - '5432:5432'
+    env_file:
+    - .env
+
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -26,11 +53,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Kafka
   kafka:
     image: confluentinc/cp-kafka:latest
     restart: always
     ports:
       - '9092:9092'
+    env_file:
+    - .env
+
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -39,11 +70,15 @@ services:
     depends_on:
       - zookeeper
 
+  # Zookeeper
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     restart: always
     ports:
       - '2181:2181'
+    env_file:
+    - .env
+
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
