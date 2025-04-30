@@ -1,8 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { User } from './entities/users.entity';
-import { Collection } from './entities/collection.entity';
-import { Field } from './entities/field.entity';
-import { Webhook } from './entities/webhook.entity';
+import { User } from 'src/entities/users.entity';
+import { Collection } from 'src/entities/collection.entity';
+import { Field } from 'src/entities/field.entity';
+import { Webhook } from 'src/entities/webhook.entity';
 import * as dotenv from 'dotenv';
 import { parse } from 'pg-connection-string';
 

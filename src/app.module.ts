@@ -4,7 +4,7 @@ import {
   RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeOrmConfig from './config/config';
+import typeOrmConfig from './database/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { CollectionsModule } from './modules/collections/collections.module';
