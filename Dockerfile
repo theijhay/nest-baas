@@ -1,4 +1,4 @@
-    FROM node:23-alpine AS builder
+    FROM node:23-alpine
 
     WORKDIR /app
     
@@ -18,7 +18,7 @@
     WORKDIR /app
     
     # Copy built code and node_modules from builder
-    COPY --from=builder /app/dist/src ./src
+    COPY --from=builder /app/dist ./dist
     COPY --from=builder /app/node_modules ./node_modules
     COPY --from=builder /app/package.json ./
     COPY --from=builder /app/.env ./
