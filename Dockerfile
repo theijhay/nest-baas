@@ -13,7 +13,7 @@
     COPY . .
     
     RUN yarn build
-    
+    RUN ls -al /app/dist
     # Production Stage
     FROM node:23-alpine
     
@@ -31,5 +31,6 @@
     # Always listen on 0.0.0.0
     ENV HOST=0.0.0.0
     
+    COPY --from=builder /app/build ./build
     # Start the app
     CMD ["node", "dist/main"]
